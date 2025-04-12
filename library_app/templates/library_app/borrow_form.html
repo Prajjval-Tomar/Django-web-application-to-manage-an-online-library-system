@@ -1,0 +1,40 @@
+{% extends 'library_app/base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}Edit Borrow Record{% else %}Add Borrow Record{% endif %} - Library Management System
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{% if form.instance.pk %}Edit Borrow Record{% else %}Add Borrow Record{% endif %}</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {% if field.errors %}
+                <div class="alert alert-danger">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+                <div class="form-control-wrapper">
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'borrow-list' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
